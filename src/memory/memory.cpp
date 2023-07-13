@@ -51,20 +51,6 @@ private:
         return -1;
     }
 
-    void fixExternalFragmentation()
-    {
-        int j = 0;
-        for (int i = 0; i < MAX_MEMORY_SIZE; i++)
-        {
-            if (bitMap[i] != 0)
-            {
-                swap(bitMap[j], bitMap[i]);
-                swap(memory[j], memory[i]);
-                j++;
-            }
-        }
-    }
-
 public:
     int insertProcessIntoMemory(int requiredMemoryBlocks, int processId)
     {
@@ -97,4 +83,72 @@ public:
 
         return 0;
     }
+
+    // Apenas para fins de testagem
+    void printMemoryAndBitMap()
+    {
+        printf("////////////// MEMORIA ////////////// \n");
+
+        for (int i = 0; i < MAX_MEMORY_SIZE; i++)
+        {
+            printf("%d, ", memory[i]);
+        }
+
+        printf("\n");
+
+        printf("////////////// BITMAP ////////////// \n");
+
+        for (int i = 0; i < MAX_MEMORY_SIZE; i++)
+        {
+            printf("%d, ", bitMap[i]);
+        }
+
+        printf("\n");
+
+        printf("\n");
+    }
+
+    // Transfere espaços livres para final da memória
+    void fixExternalFragmentation()
+    {
+        int j = 0;
+        for (int i = 0; i < MAX_MEMORY_SIZE; i++)
+        {
+            if (bitMap[i] != 0)
+            {
+                swap(bitMap[j], bitMap[i]);
+                swap(memory[j], memory[i]);
+                j++;
+            }
+        }
+    }
 };
+
+int Memory::bitMap[MAX_MEMORY_SIZE] = {0};
+int Memory::memory[MAX_MEMORY_SIZE] = {0};
+
+// Apenas para fins de testagem
+int main()
+{
+    int processOne[2] = {1, 4};
+    int processTwo[2] = {2, 2};
+    int processThree[2] = {3, 5};
+    int processFour[2] = {4, 2};
+
+    Memory mem;
+
+    mem.insertProcessIntoMemory(processOne[1], processOne[0]);
+    mem.printMemoryAndBitMap();
+    mem.insertProcessIntoMemory(processTwo[1], processTwo[0]);
+    mem.printMemoryAndBitMap();
+    mem.insertProcessIntoMemory(processThree[1], processThree[0]);
+    mem.printMemoryAndBitMap();
+    mem.removeProcessFromMemory(processTwo[0]);
+    mem.printMemoryAndBitMap();
+    mem.fixExternalFragmentation();
+    mem.printMemoryAndBitMap();
+    mem.insertProcessIntoMemory(processFour[1], processFour[0]);
+    mem.printMemoryAndBitMap();
+
+    return 0;
+}
