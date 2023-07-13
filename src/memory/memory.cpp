@@ -1,8 +1,9 @@
 #include <iostream>
+#include <bits/stdc++.h>
 
 using namespace std;
 
-#define MAX_MEMORY_SIZE 300
+#define MAX_MEMORY_SIZE 20
 
 class Memory
 {
@@ -48,6 +49,20 @@ private:
         }
 
         return -1;
+    }
+
+    void fixExternalFragmentation()
+    {
+        int j = 0;
+        for (int i = 0; i < MAX_MEMORY_SIZE; i++)
+        {
+            if (bitMap[i] != 0)
+            {
+                swap(bitMap[j], bitMap[i]);
+                swap(memory[j], memory[i]);
+                j++;
+            }
+        }
     }
 
 public:
