@@ -1,6 +1,8 @@
 #include <iostream>
+#include <vector>
 #include <string>
 #include <cmath>
+#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -22,8 +24,29 @@ Process createProcess(int memoryBlocks)
     return proc;
 }
 
-/*Algumas observações:
-1. Ainda não tenho muita ideia de como fazer a atribuição de instruções a serem executadas por parte do processo
-2. É preciso fazer de uma forma que o comando "create -m X" chame a função createProcess passando X como memoryBlocks
-3. Ainda não tenho muita ideia de onde esse processo vai ser manipulado.
-*/
+// Lógica para criação de processo
+int main()
+{
+    string input;
+    vector<string> formatedInput;
+    string s;
+    Process process;
+    cout << "Criação de processo: ";
+    getline(cin, input);
+    stringstream ss(input);
+    vector<string> v;
+
+    while (getline(ss, s, ' '))
+    {
+        v.push_back(s);
+    }
+
+    if ((v[0]) == "create")
+    {
+        process = createProcess(std::stoi(v[v.size() - 1]));
+    }
+
+    cout << "Processo " << process.id << " de " << process.memoryBlocks << " blocos de memória.";
+
+    return 0;
+}
