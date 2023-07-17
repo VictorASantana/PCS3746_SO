@@ -2,27 +2,8 @@
 #include <vector>
 #include <string>
 #include <cmath>
+#include "process.h"
 #include <bits/stdc++.h>
-
-using namespace std;
-
-class Process
-{
-public:
-    int id;
-    int memoryBlocks;
-    string instructions;
-};
-
-// Retorna um processo
-Process createProcess(int memoryBlocks)
-{
-    int id = rand();
-    Process proc;
-    proc.id = id;
-    proc.memoryBlocks = memoryBlocks;
-    return proc;
-}
 
 // Lógica para criação de processo
 int main()
