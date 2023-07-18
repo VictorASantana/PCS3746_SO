@@ -1,3 +1,6 @@
+#ifndef MEMORY_H
+#define MEMORY_H
+
 #include <iostream>
 #include <bits/stdc++.h>
 #include "../process/process.h"
@@ -124,3 +127,5 @@ public:
         }
     }
 };
+
+#endif
