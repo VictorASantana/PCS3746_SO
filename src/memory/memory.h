@@ -1,5 +1,6 @@
 #include <iostream>
 #include <bits/stdc++.h>
+#include "../process/process.h"
 
 using namespace std;
 
@@ -13,7 +14,7 @@ private:
 
     // Retorna index do primeiro local da memoria livre
     // ou -1 caso nao haja o espaco requisitado disponivel
-    int checkEmptyMemorySlot(int requiredMemoryBlocks)
+    int checkEmptyMemorySlot(Process process)
     {
         int startSequenceIndex, lastSequenceIndex;
 
@@ -23,14 +24,14 @@ private:
             {
                 startSequenceIndex = i;
 
-                while (bitMap[i] != 1 && (i - startSequenceIndex) < requiredMemoryBlocks)
+                while (bitMap[i] != 1 && (i - startSequenceIndex) < process.memoryBlocks)
                     i++;
 
                 lastSequenceIndex = i;
 
                 int emptyMemorySequenceSize = lastSequenceIndex - startSequenceIndex;
 
-                if (emptyMemorySequenceSize >= requiredMemoryBlocks)
+                if (emptyMemorySequenceSize >= process.memoryBlocks)
                     return startSequenceIndex;
             };
         }
@@ -52,30 +53,30 @@ private:
     }
 
 public:
-    int insertProcessIntoMemory(int requiredMemoryBlocks, int processId)
+    int insertProcessIntoMemory(Process process)
     {
-        int emptyMemorySlotStartIndex = checkEmptyMemorySlot(requiredMemoryBlocks);
+        int emptyMemorySlotStartIndex = checkEmptyMemorySlot(process);
 
         if (emptyMemorySlotStartIndex < 0)
             return -1;
 
-        for (int i = emptyMemorySlotStartIndex; i < (emptyMemorySlotStartIndex + requiredMemoryBlocks); i++)
+        for (int i = emptyMemorySlotStartIndex; i < (emptyMemorySlotStartIndex + process.memoryBlocks); i++)
         {
-            memory[i] = processId;
+            memory[i] = process.id;
             bitMap[i] = 1;
         }
 
         return 0;
     }
 
-    int removeProcessFromMemory(int processId)
+    int removeProcessFromMemory(Process process)
     {
-        int allocatedMemoryForProcessStartIndex = findProcessInMemory(processId);
+        int allocatedMemoryForProcessStartIndex = findProcessInMemory(process.id);
 
         if (allocatedMemoryForProcessStartIndex < 0)
             return -1;
 
-        for (int i = allocatedMemoryForProcessStartIndex; memory[i] == processId; i++)
+        for (int i = allocatedMemoryForProcessStartIndex; memory[i] == process.id; i++)
         {
             memory[i] = 0;
             bitMap[i] = 0;

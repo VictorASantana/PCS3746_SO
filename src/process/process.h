@@ -1,3 +1,6 @@
+#ifndef PROCESS_H
+#define PROCESS_H
+
 #include <iostream>
 #include <string>
 #include <bits/stdc++.h>
@@ -21,3 +24,5 @@ Process createProcess(int memoryBlocks)
     proc.memoryBlocks = memoryBlocks;
     return proc;
 }
+
+#endif
