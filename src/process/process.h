@@ -1,3 +1,6 @@
+#ifndef PROCESS_H
+#define PROCESS_H
+
 #include <iostream>
 #include <string>
 #include <bits/stdc++.h>
@@ -58,3 +61,5 @@ Process createProcess(int memoryBlocks)
     proc.instructions = readInstructions(memoryBlocks, nomeArquivo);
     return proc;
 }
+
+#endif
