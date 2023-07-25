@@ -1,4 +1,3 @@
-
 sub	sp, sp, #16
 add	r7, sp, #0
 str	r0, [r7, #4]

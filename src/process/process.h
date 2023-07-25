@@ -36,8 +36,7 @@ std::vector<std::string> readInstructions(int numberOfInstructions, const std::s
     {
         for (int i = 0; i < numberOfInstructions && std::getline(arquivo, linha); i++)
         {
-            if (i > 0)
-                linhas.push_back(linha);
+            linhas.push_back(linha);
         }
 
         arquivo.close();
