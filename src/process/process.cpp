@@ -1,11 +1,5 @@
-#include <iostream>
-#include <string>
-using namespace std;
+#include "process.h"
 
-class Process
+class Process::Process
 {
-public:
-    int id;
-    int memoryBlocks;
-    string instructions;
-};
+}
