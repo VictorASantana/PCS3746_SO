@@ -14,13 +14,13 @@ class TCB
     int pc;
 
     public:
-    TCB(Process proc);
+    TCB(Process);
 
     string getState();
 
     Process getProcess();
 
-    int update(string new_state);
+    int update(string);
 };
 
 #endif
