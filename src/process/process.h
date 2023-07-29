@@ -20,6 +20,10 @@ class Process
 
     Process(int);
 
+    int getMemoryBlock();
+
+    int getID();
+
     void resume(int);
 
     int block();

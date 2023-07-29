@@ -18,6 +18,16 @@ Process::Process(int memoryBlocks)
     this->instructions = readInstructions(memoryBlocks, nomeArquivo);
 }
 
+int Process::getMemoryBlock()
+{
+    return this->memoryBlocks;
+}
+
+int Process::getID()
+{
+    return this->id;
+}
+
 void Process::resume(int pc)
 {
     this->program_counter = pc;
