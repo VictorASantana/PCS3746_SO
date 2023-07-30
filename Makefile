@@ -1,5 +1,5 @@
 # Set project directory one level above of Makefile directory. $(CURDIR) is a GNU make variable containing the path to the current working directory
-PROJDIR := $(realpath $(CURDIR)/..)
+PROJDIR := $(realpath $(CURDIR))
 SOURCEDIR := $(PROJDIR)/src
 BUILDDIR := $(PROJDIR)/build
 
@@ -7,7 +7,7 @@ BUILDDIR := $(PROJDIR)/build
 TARGET = simulation
 
 # Create the list of directories
-DIRS = tcb
+DIRS = memory process tcb test
 SOURCEDIRS = $(foreach dir, $(DIRS), $(addprefix $(SOURCEDIR)/, $(dir)))
 TARGETDIRS = $(foreach dir, $(DIRS), $(addprefix $(BUILDDIR)/, $(dir)))
 
