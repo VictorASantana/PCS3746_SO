@@ -3,73 +3,40 @@
 
 #include <iostream>
 #include <vector>
-#include "../process/process.h"
+#include "process.h"
+#include "tcb.h"
 
 using namespace std;
 
 class Scheduler
 {
 private:
+    TCB tcb;
 
-    static vector<"TCB"> scheduler;
-
-    TCB roundRobinAlgorithm(bool isFinished) {
-        if (isFinished == true) {
-            // Terminar o processo atual
-            // Colocar o próximo em execução
-            // Puxar toda a fila pra cima  
-        } else {
-            // Colocar o processo atual no final da fila e salvar o contexto
-            // Colocar o próximo em execução
-            // Puxar toda a fila pra cima
-        };
-    };
-
-    TCB fifoAlgorithm() {
-        // Terminar o processo atual
-        // Colocar o próximo em execução
-        // Puxar toda a fila pra cima 
-    };
+    vector<TCB> scheduler;
 
 public:
-
     bool schedulerAlgorithm;
 
-    void setSchedulerAlgorithm(bool algorithm) {
-        schedulerAlgorithm = algorithm;
-    };
+    void setSchedulerAlgorithm(bool algorithm);
 
-    bool getSchedulerAlgorithm() {
-        return schedulerAlgorithm;
-    };
+    bool getSchedulerAlgorithm();
 
-    void addTCBToScheduler(TCB tcb) {
-        scheduler.push_back(tcb);
-    };
+    Scheduler(TCB tcb);
+
+    TCB roundRobinAlgorithm(bool isFinished);
+
+    TCB fifoAlgorithm();
+
+    void addTCBToScheduler(TCB tcb);
 
     // Realiza o escalonamento de acordo com a boolean schedulerAlgorithm
     // schedulerAlgorithm --> 0 = Round Robin, 1 = Fifo
-    TCB scheduleTCB(bool isFinished)
-    {
-        if(schedulerAlgorithm == 0) {
-            roundRobinAlgorithm(isFinished);
-        };
+    TCB scheduleTCB(bool isFinished);
 
-        if(schedulerAlgorithm == 1) {
-            fifoAlgorithm();
-        }
-    };
+    void saveTCB();
 
-    void saveTCB() 
-    {
-        // Chamar função de salvar TCB
-    };
-
-    void processBlock()
-    {
-        // Chamar função de bloquear processo
-    };
-
+    void processBlock();
 };
 
 #endif
