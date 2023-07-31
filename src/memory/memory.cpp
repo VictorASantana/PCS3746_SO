@@ -2,4 +2,4 @@
 
 class Memory::Memory
 {
-};
+}
