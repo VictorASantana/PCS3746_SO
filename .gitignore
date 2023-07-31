@@ -1,2 +1,8 @@
 .vscode/
+.build/
 *.exe
+*.d
+*.o
+*.out
+*.app
+simulation
