@@ -11,25 +11,21 @@ TCB::TCB(Process proc)
     this->pc = 0;
 }
 
-string TCB::getState()
-{
-    return this->state;
-}
+string TCB::getState() {return this->state;}
 
-Process TCB::getProcess()
-{
-    return this->process;
-}
+Process TCB::getProcess() {return this->process;}
 
 int TCB::update(string new_state)
 {
-    if (new_state == "bloqueado") {
+    if (new_state == "bloqueado")
+    {
         int procPC = this->process.block();
         this->pc = procPC;
         this->state = "pronto";
     } 
     
-    else if (new_state == "executando") {
+    else if (new_state == "executando")
+    {
         this->state = new_state;
         this->process.resume(pc);
     }
