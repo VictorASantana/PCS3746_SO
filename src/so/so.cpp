@@ -85,5 +85,13 @@ int OperatingSystem::runCycle()
     Process *p;
     p = this->getProcess(1);
     p->updatePC();
+
+    this->cycle = this->cycle + 1;
+    if (this->cycle == 4)
+    {
+        this->compactMem();
+        this->cycle = 0;
+    }
+
     return (p->getPC());
 }

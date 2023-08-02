@@ -59,7 +59,7 @@ int main()
         // Recebe a mensagem do cliente
         string op, pid;
         int umem, pc;
-        
+
         op = pid = "";
         umem = pc = 0;
 
@@ -86,6 +86,7 @@ int main()
 
                 else if (op == "run")
                     pc = so.runCycle();
+                    
 
                 break;
 

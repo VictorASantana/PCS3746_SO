@@ -9,6 +9,7 @@ class OperatingSystem {
     private:
     Memory mem;
     int currentID = 1;
+    int cycle = 0;
     vector<Process> processVector;
     vector<TCB> TCBVector;
 
