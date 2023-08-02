@@ -82,9 +82,9 @@ int OperatingSystem::compactMem()
 
 int OperatingSystem::runCycle() 
 {
-    Process *p;
-    p = this->getProcess(1);
-    p->updatePC();
+    // Process *p;
+    // p = this->getProcess(1);
+    // p->updatePC();
 
     this->cycle = this->cycle + 1;
     if (this->cycle == 4)
@@ -93,5 +93,6 @@ int OperatingSystem::runCycle()
         this->cycle = 0;
     }
 
-    return (p->getPC());
+    // return (p->getPC());
+    return 1;
 }
