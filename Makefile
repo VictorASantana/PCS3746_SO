@@ -52,8 +52,8 @@ server: directories $(TARGET)
 	./$(TARGET) 
 
 client:
-	g++ -o client ./src/client/client.cpp
-	./client
+	g++ -o client_ter ./src/client/client.cpp
+	./client_ter
 
 $(TARGET): $(OBJS)
 	echo Linking $@
