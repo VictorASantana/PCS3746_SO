@@ -5,7 +5,14 @@
 
 using namespace std;
 
-Memory::Memory() {}
+Memory::Memory()
+{
+    for (int i = 0; i < MAX_MEMORY_SIZE; i++)
+    {
+        this->memory[i] = 0;
+        this->bitMap[i] = 0;
+    }
+}
 
 int Memory::checkEmptyMemorySlot(Process process)
 {
@@ -21,7 +28,6 @@ int Memory::checkEmptyMemorySlot(Process process)
                 i++;
 
             lastSequenceIndex = i;
-
             int emptyMemorySequenceSize = lastSequenceIndex - startSequenceIndex;
 
             if (emptyMemorySequenceSize >= process.getMemoryBlock())
@@ -95,18 +101,16 @@ void Memory::fixExternalFragmentation()
 // Apenas para fins de testagem
 void Memory::printMemoryAndBitMap()
 {
-    printf("////////////// MEMORIA ////////////// \n");
+    printf("\n////////////// MEMORIA //////////////\n");
+
     for (int i = 0; i < MAX_MEMORY_SIZE; i++)
-    {
         printf("%d, ", this->memory[i]);
-    }
 
     printf("\n");
-    printf("////////////// bitMap ////////////// \n");
+    printf("\n////////////// bitMap //////////////\n");
+
     for (int i = 0; i < MAX_MEMORY_SIZE; i++)
-    {
         printf("%d, ", this->bitMap[i]);
-    }
 
     printf("\n");
     printf("\n");
