@@ -12,17 +12,21 @@ class Process
     private:
     int id;
     int memoryBlocks;
-    int program_counter;
+    int pc;
     vector<string> instructions;
 
     public:
     Process();
 
-    Process(int);
+    Process(int, int);
 
     int getMemoryBlock();
 
     int getID();
+
+    int getPC();
+
+    void updatePC();
 
     void resume(int);
 
