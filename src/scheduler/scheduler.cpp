@@ -1,70 +1,80 @@
 #include <iostream>
+#include <deque>
 #include "scheduler.h"
 #include "tcb.h"
+#include "process.h"
 
 using namespace std;
 
-/* Scheduler::Scheduler()
+Scheduler::Scheduler()
 {
-    aaaaa
+    this->schedulerAlgorithm = false;
+    this->scheduler = {};
 }
-
-*/
-
-TCB Scheduler::roundRobinAlgorithm(bool isFinished)
-{
-    if (isFinished == true)
-    {
-        // Terminar o processo atual
-        // Colocar o próximo em execução
-        // Puxar toda a fila pra cima
-    }
-    else
-    {
-        // Colocar o processo atual no final da fila e salvar o contexto
-        // Colocar o próximo em execução
-        // Puxar toda a fila pra cima
-    };
-}
-
-TCB Scheduler::fifoAlgorithm(){
-    // Terminar o processo atual
-    // Colocar o próximo em execução
-    // Puxar toda a fila pra cima
-};
 
 void Scheduler::setSchedulerAlgorithm(bool algorithm)
 {
-    schedulerAlgorithm = algorithm;
+    this->schedulerAlgorithm = algorithm;
 };
 
-bool Scheduler::getSchedulerAlgorithm()
+bool Scheduler::getSchedulerAlgorithm() // Se for false é RoundRobin se for true é FIFO
 {
-    return schedulerAlgorithm;
+    return this->schedulerAlgorithm;
 };
 
 void Scheduler::addTCBToScheduler(TCB tcb)
 {
-    scheduler.push_back(tcb);
+    this->scheduler.push_back(tcb);
 };
+
+TCB Scheduler::getFirstElement()
+{
+    TCB tcb = this->scheduler.front();
+    this->scheduler.pop_front();
+    return tcb;
+}
 
 TCB Scheduler::scheduleTCB(bool isFinished)
 {
-    if (schedulerAlgorithm == 0)
+    if (schedulerAlgorithm == false)
     {
         roundRobinAlgorithm(isFinished);
     };
 
-    if (schedulerAlgorithm == 1)
+    if (schedulerAlgorithm == true)
     {
         fifoAlgorithm();
     }
 };
 
-void Scheduler::saveTCB(){
-    // Chamar função de salvar TCB
-};
+TCB Scheduler::roundRobinAlgorithm(bool isFinished)
+{
+    if (isFinished == true)
+    {
+        this->scheduler.pop_front();
+        TCB tcb = this->getFirstElement();
+        tcb.update("executando");
 
-void Scheduler::processBlock(){
-    // Chamar função de bloquear processo
+        return tcb;
+    }
+    else
+    {
+        TCB tcbBloq = this->getFirstElement();
+        tcbBloq.update("bloqueado");
+        this->scheduler.push_back(tcbBloq);
+
+        TCB tcbRes = this->getFirstElement();
+        tcbRes.update("executando");
+
+        return tcbRes;
+    };
+}
+
+TCB Scheduler::fifoAlgorithm()
+{
+    this->scheduler.pop_front();
+    TCB tcb = this->getFirstElement();
+    tcb.update("executando");
+
+    return tcb;
 };
