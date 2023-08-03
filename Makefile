@@ -7,7 +7,7 @@ BUILDDIR := $(PROJDIR)/build
 TARGET = simulation
 
 # Create the list of directories
-DIRS = memory process tcb so
+DIRS = memory process tcb scheduler so
 SOURCEDIRS = $(foreach dir, $(DIRS), $(addprefix $(SOURCEDIR)/, $(dir)))
 TARGETDIRS = $(foreach dir, $(DIRS), $(addprefix $(BUILDDIR)/, $(dir)))
 
