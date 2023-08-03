@@ -7,7 +7,7 @@ BUILDDIR := $(PROJDIR)/build
 TARGET = simulation
 
 # Create the list of directories
-DIRS = memory process tcb test
+DIRS = memory process tcb so
 SOURCEDIRS = $(foreach dir, $(DIRS), $(addprefix $(SOURCEDIR)/, $(dir)))
 TARGETDIRS = $(foreach dir, $(DIRS), $(addprefix $(BUILDDIR)/, $(dir)))
 
@@ -44,9 +44,16 @@ $(1)/%.o: %.cpp
 	g++ -c $$(INCLUDES) -o $$(subst /,$$(PSEP),$$@) $$(subst /,$$(PSEP),$$<) -MMD
 endef
 
-.PHONY: all clean directories 
+.PHONY: all clean directories client
 
-all: directories $(TARGET)
+all: server
+
+server: directories $(TARGET)
+	./$(TARGET) 
+
+client:
+	g++ -o client_ter ./src/client/client.cpp
+	./client_ter
 
 $(TARGET): $(OBJS)
 	echo Linking $@

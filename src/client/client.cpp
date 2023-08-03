@@ -3,7 +3,6 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <string.h>
-#include "../process/process.h"
 
 #define PORT 8080
 
@@ -16,7 +15,7 @@ int main()
     // Criar o socket
     if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0)
     {
-        std::cerr << "Erro na criaÃ§Ã£o do socket" << std::endl;
+        std::cerr << "Erro na criacao do socket" << std::endl;
         return -1;
     }
 
@@ -26,16 +25,17 @@ int main()
     // Convertendo endereÃ§o IPv4 e IPv6 do texto para binÃ¡rio
     if (inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr) <= 0)
     {
-        std::cerr << "EndereÃ§o invÃ¡lido / EndereÃ§o nÃ£o suportado" << std::endl;
+        std::cerr << "Endereco invalido / Endereco nao suportado" << std::endl;
         return -1;
     }
 
     // Conectar ao servidor
     if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0)
     {
-        std::cerr << "ConexÃ£o falhou" << std::endl;
+        std::cerr << "Conexao falhou" << std::endl;
         return -1;
     }
+
     while (true)
     {
         std::cout << "Digite uma mensagem: ";
@@ -45,11 +45,9 @@ int main()
         send(sock, buffer, strlen(buffer), 0);
 
         // Termina a execução se a mensagem for "exit"
-        if (strcmp(buffer, "exit") == 0)
-            break;
+        if (strcmp(buffer, "exit") == 0) break;
     }
 
     close(sock);
-
     return 0;
 }

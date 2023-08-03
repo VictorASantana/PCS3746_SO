@@ -8,37 +8,34 @@ using namespace std;
 
 Process::Process() {}
 
-Process::Process(int memoryBlocks)
+Process::Process(int memoryBlocks, int id)
 {
-    int id = rand();
     string nomeArquivo = "./data/instr.txt";
-
+    
     this->id = id;
+    this->pc = 0;
     this->memoryBlocks = memoryBlocks;
-    this->instructions = readInstructions(memoryBlocks, nomeArquivo);
+    this->instructions = readInstructions(memoryBlocks - 1, nomeArquivo);
 }
 
-int Process::getMemoryBlock()
-{
-    return this->memoryBlocks;
-}
+int Process::getMemoryBlock() {return this->memoryBlocks;}
 
-int Process::getID()
-{
-    return this->id;
-}
+int Process::getID() {return this->id;}
 
-void Process::resume(int pc)
-{
-    this->program_counter = pc;
-}
+int Process::getPC() {return this->pc;}
+
+void Process::updatePC()  {this->pc = this->pc + 1;}
+
+void Process::resume(int pc) {this->pc = pc;}
+
 
 int Process::block()
 {
-    int pc = this->program_counter;
-    this->program_counter = 0;
+    int pc = this->pc;
+    this->pc = 0;
     return pc;
 }
+
 
 vector<string> Process::readInstructions(int numberOfInstructions, const string &nomeArquivo)
 {
@@ -50,18 +47,14 @@ vector<string> Process::readInstructions(int numberOfInstructions, const string 
 
     if (arquivo.is_open())
     {
-        for (int i = 0; i < numberOfInstructions && std::getline(arquivo, linha); i++)
-        {
+        for (int i = 0; i < numberOfInstructions && getline(arquivo, linha); i++)
             linhas.push_back(linha);
-        }
 
+        linhas.push_back("HLT");
         arquivo.close();
     }
 
-    else
-    {
-        std::cout << "Não foi possível abrir o arquivo." << std::endl;
-    }
+    else cout << "Não foi possível abrir o arquivo." << endl;
 
     linhas.push_back("hlt");
     return linhas;
