@@ -2,23 +2,30 @@
 #include "tcb.h"
 #include "process.h"
 #include "memory.h"
+#include "scheduler.h"
 
 using namespace std;
 
 class OperatingSystem {
     private:
-    Memory mem;
     int currentID = 1;
+    int atom = 4;
     int cycle = 0;
-    vector<Process> processVector;
-    vector<TCB> TCBVector;
+    int compact = 0;
+
+    Memory mem;
+    Scheduler sched;
+    vector<Process*> processVector;
+    vector<TCB*> TCBVector;
 
     public:
     OperatingSystem();
 
-    int createProcess(int);
+    int createProcess(int, int);
 
     int killProcess(int);
+
+    int addProcess(int, int);
 
     Process* getProcess(int);
 
@@ -27,4 +34,6 @@ class OperatingSystem {
     int compactMem();
 
     int runCycle();
+
+    void setAlgorithm(string);
 };

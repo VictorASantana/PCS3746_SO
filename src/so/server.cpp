@@ -51,6 +51,9 @@ int main()
 
 
 
+
+    string alg = "rr";
+
     // Loop principal, trata os comandos e aciona a classe OperatingSystem
     while (true)
     {
@@ -72,21 +75,29 @@ int main()
                 if (op == "create")
                 {
                     umem = int(buffer[(i+4)]) - int('0');
-                    so.createProcess(umem);
+                    so.addProcess(umem, 1);
                 }
                 
                 else if (op == "kill")
                 {
                     for (int j = i + 1; buffer[j] != '\0'; j++)
-                    {
                         pid.push_back(buffer[j]);
-                        so.killProcess(stoi(pid));
-                    }
+                        
+                    so.addProcess(stoi(pid), 2);
                 }
 
                 else if (op == "run")
                     pc = so.runCycle();
-                    
+
+                else if (op == "set")
+                {
+                    alg = "";
+
+                    for (int j = i + 1; buffer[j] != '\0'; j++)
+                        alg.push_back(buffer[j]);
+
+                    so.setAlgorithm(alg);
+                }
 
                 break;
 
@@ -94,11 +105,9 @@ int main()
         }
 
         // Mostra a mensagem recebida
-        std::cout << "Mensagem recebida: " << buffer << endl;
         std::cout << "Operation: " << op << endl;
-        std::cout << "Memory blocks: " << umem << endl;
-        std::cout << "Process ID: " << pid << endl;
-        std::cout << "Process PC: " << pc << endl << endl;
+        std::cout << "Process PC: " << pc << endl;
+        std::cout << "Algoritmo: " << alg << endl << endl;
 
         // Envia uma resposta de volta ao cliente (opcional)
         char res[MAX_BUFFER] = "Mensagem recebida pelo servidor";

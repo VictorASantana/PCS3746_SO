@@ -6,14 +6,12 @@
 
 using namespace std;
 
-Process::Process() {}
-
-Process::Process(int memoryBlocks, int id)
+Process::Process(int memoryBlocks, int id, int type)
 {
     string nomeArquivo = "./data/instr.txt";
     
     this->id = id;
-    this->pc = 0;
+    this->type = type;
     this->memoryBlocks = memoryBlocks;
     this->instructions = readInstructions(memoryBlocks - 1, nomeArquivo);
 }
@@ -23,6 +21,8 @@ int Process::getMemoryBlock() {return this->memoryBlocks;}
 int Process::getID() {return this->id;}
 
 int Process::getPC() {return this->pc;}
+
+int Process::getType() {return this->type;}
 
 void Process::updatePC()  {this->pc = this->pc + 1;}
 

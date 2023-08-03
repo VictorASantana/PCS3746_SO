@@ -9,18 +9,20 @@ using namespace std;
 class TCB
 {
     private:
-    Process process;
-    string state;
-    int pc;
+    Process* process;
+    string state = "pronto";
+    int pc = 0;
 
     public:
-    TCB(Process);
+    TCB(Process*);
 
     string getState();
 
-    Process getProcess();
+    Process* getProcess();
 
     int update(string);
+
+    void printTCB();
 };
 
 #endif

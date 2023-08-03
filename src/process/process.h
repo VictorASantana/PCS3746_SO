@@ -11,20 +11,21 @@ class Process
 {
     private:
     int id;
+    int pc = 0;
+    int type;
     int memoryBlocks;
-    int pc;
     vector<string> instructions;
 
     public:
-    Process();
-
-    Process(int, int);
+    Process(int, int, int);
 
     int getMemoryBlock();
 
     int getID();
 
     int getPC();
+
+    int getType();
 
     void updatePC();
 

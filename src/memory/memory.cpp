@@ -56,7 +56,7 @@ int Memory::insertProcessIntoMemory(Process process)
     int emptyMemorySlotStartIndex = checkEmptyMemorySlot(process);
 
     if (emptyMemorySlotStartIndex < 0)
-        return -1;
+        return 0;
 
     for (int i = emptyMemorySlotStartIndex; i < (emptyMemorySlotStartIndex + process.getMemoryBlock()); i++)
     {
@@ -64,7 +64,7 @@ int Memory::insertProcessIntoMemory(Process process)
         this->bitMap[i] = 1;
     }
 
-    return 0;
+    return 1;
 }
 
 int Memory::removeProcessFromMemory(Process process)
@@ -72,7 +72,7 @@ int Memory::removeProcessFromMemory(Process process)
     int allocatedMemoryForProcessStartIndex = findProcessInMemory(process.getID());
 
     if (allocatedMemoryForProcessStartIndex < 0)
-        return -1;
+        return 0;
 
     for (int i = allocatedMemoryForProcessStartIndex; memory[i] == process.getID(); i++)
     {
@@ -80,7 +80,7 @@ int Memory::removeProcessFromMemory(Process process)
         this->bitMap[i] = 0;
     }
 
-    return 0;
+    return 1;
 }
 
 // Transfere espaços livres para final da memória

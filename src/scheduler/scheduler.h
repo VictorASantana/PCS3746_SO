@@ -1,9 +1,7 @@
 #ifndef SCHEDULER_H
 #define SCHEDULER_H
 
-#include <iostream>
 #include <deque>
-#include "process.h"
 #include "tcb.h"
 
 using namespace std;
@@ -11,10 +9,8 @@ using namespace std;
 class Scheduler
 {
     private:
-
-    bool schedulerAlgorithm;
-
-    deque<TCB> scheduler;
+    bool roundRobin = true;
+    deque<TCB*> scheduler = {};
 
     public:
     Scheduler();
@@ -23,16 +19,19 @@ class Scheduler
 
     bool getSchedulerAlgorithm();
 
-    void addTCBToScheduler(TCB);
+    void addTCB(TCB*);
 
-    TCB getFirstElement();
+    void RemoveTCB(TCB*);
 
-    TCB scheduleTCB(bool);
+    TCB* getFirstElement(bool);
 
-    TCB roundRobinAlgorithm(bool);
+    TCB* scheduleTCB(bool);
 
-    TCB fifoAlgorithm();
+    private: TCB* roundRobinAlgorithm(bool);
 
+    private: TCB* fifoAlgorithm();
+
+    public: void printScheduler();
 };
 
 #endif

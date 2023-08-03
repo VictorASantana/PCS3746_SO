@@ -6,75 +6,96 @@
 
 using namespace std;
 
-Scheduler::Scheduler()
-{
-    this->schedulerAlgorithm = false;
-    this->scheduler = {};
-}
+Scheduler::Scheduler() {}
 
-void Scheduler::setSchedulerAlgorithm(bool algorithm)
-{
-    this->schedulerAlgorithm = algorithm;
-};
+void Scheduler::setSchedulerAlgorithm(bool algorithm) {this->roundRobin = algorithm;}
 
-bool Scheduler::getSchedulerAlgorithm() // Se for false é RoundRobin se for true é FIFO
-{
-    return this->schedulerAlgorithm;
-};
+bool Scheduler::getSchedulerAlgorithm() {return this->roundRobin;}
 
-void Scheduler::addTCBToScheduler(TCB tcb)
-{
-    this->scheduler.push_back(tcb);
-};
+void Scheduler::addTCB(TCB *tcb) {this->scheduler.push_back(tcb);}
 
-TCB Scheduler::getFirstElement()
+void Scheduler::RemoveTCB(TCB *tcb)
 {
-    TCB tcb = this->scheduler.front();
-    this->scheduler.pop_front();
-    return tcb;
-}
-
-TCB Scheduler::scheduleTCB(bool isFinished)
-{
-    if (schedulerAlgorithm == false)
+    for (int i = 0; i < this->scheduler.size(); i++)
     {
-        roundRobinAlgorithm(isFinished);
-    };
-
-    if (schedulerAlgorithm == true)
-    {
-        fifoAlgorithm();
+        if (this->scheduler[i]->getProcess()->getID() == tcb->getProcess()->getID())
+            this->scheduler.erase(this->scheduler.begin() + i);
     }
-};
+}
 
-TCB Scheduler::roundRobinAlgorithm(bool isFinished)
+TCB* Scheduler::getFirstElement(bool drop)
 {
-    if (isFinished == true)
+    if (!this->scheduler.empty())
     {
-        this->scheduler.pop_front();
-        TCB tcb = this->getFirstElement();
-        tcb.update("executando");
+        TCB *tcb = this->scheduler.front();
+        if (drop) this->scheduler.pop_front();
+        return tcb;
+    }
+
+    else return NULL;
+    
+}
+
+TCB* Scheduler::scheduleTCB(bool isFinished)
+{
+    TCB *tcb;
+
+    if (!this->scheduler.size() > 1) 
+    {
+        if (this->roundRobin == true)
+            tcb = this->roundRobinAlgorithm(isFinished);
+
+        else if (this->roundRobin == false)
+            tcb = fifoAlgorithm();
 
         return tcb;
     }
+
+    else return NULL;    
+}
+
+TCB* Scheduler::roundRobinAlgorithm(bool isFinished)
+{
+    if (isFinished)
+    {
+        this->scheduler.pop_front();
+        TCB *tcb = this->getFirstElement(false);
+        int id = tcb->getProcess()->getID();
+        tcb->update("executando");
+
+        return tcb;
+    }
+
     else
     {
-        TCB tcbBloq = this->getFirstElement();
-        tcbBloq.update("bloqueado");
-        this->scheduler.push_back(tcbBloq);
+        TCB *tcbBlock = this->getFirstElement(true);
+        tcbBlock->update("bloqueado");
+        this->scheduler.push_back(tcbBlock);
 
-        TCB tcbRes = this->getFirstElement();
-        tcbRes.update("executando");
+        TCB *tcbRes = this->getFirstElement(false);
+        tcbRes->update("executando");
 
         return tcbRes;
     };
 }
 
-TCB Scheduler::fifoAlgorithm()
+TCB* Scheduler::fifoAlgorithm()
 {
     this->scheduler.pop_front();
-    TCB tcb = this->getFirstElement();
-    tcb.update("executando");
+    TCB *tcb = this->getFirstElement(false);
+    int id = tcb->getProcess()->getID();
+    tcb->update("executando");
 
     return tcb;
-};
+}
+
+void Scheduler::printScheduler()
+{
+    printf("| ");
+    for (int i = 0; i < this->scheduler.size(); i++)
+    {
+        int pid = this->scheduler[i]->getProcess()->getID();
+        printf("%d | ", pid);
+    }
+    printf("\n\n");
+}
