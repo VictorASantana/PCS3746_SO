@@ -19,7 +19,6 @@ int main(int argc, char *arv[]) {
     noecho();
     curs_set(false);
 
-    int i = 0;
     while(true){
         
         WINDOW *status_win = create_newwin(10, 20, 0, 0);
@@ -31,8 +30,6 @@ int main(int argc, char *arv[]) {
         printTCBWin(tcb_win);
         printBitMapWin(bitMap_win);
         printReadyLine(readyLine_win);
-
-        i++;
 
         sleep(1);
 
