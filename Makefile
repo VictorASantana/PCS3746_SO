@@ -41,7 +41,7 @@ PSEP = $(strip $(SEP))
 define generateRules
 $(1)/%.o: %.cpp
 	@echo Building $$@
-	g++ -c $$(INCLUDES) -o $$(subst /,$$(PSEP),$$@) $$(subst /,$$(PSEP),$$<) -MMD
+	g++ -c $$(INCLUDES) -o $$(subst /,$$(PSEP),$$@) $$(subst /,$$(PSEP),$$<) -MMD -Incurses
 endef
 
 .PHONY: all clean directories client
@@ -57,7 +57,7 @@ client:
 
 $(TARGET): $(OBJS)
 	echo Linking $@
-	g++ $(OBJS) -o $(TARGET)
+	g++ $(OBJS) -o $(TARGET) -lncurses
 
 # Include dependencies
 -include $(DEPS)

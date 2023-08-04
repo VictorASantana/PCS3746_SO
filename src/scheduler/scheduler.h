@@ -8,30 +8,35 @@ using namespace std;
 
 class Scheduler
 {
-    private:
+private:
     bool roundRobin = true;
-    deque<TCB*> scheduler = {};
+    deque<TCB *> scheduler = {};
 
-    public:
+public:
     Scheduler();
 
     void setSchedulerAlgorithm(bool);
 
     bool getSchedulerAlgorithm();
 
-    void addTCB(TCB*);
+    deque<TCB *> getSchedulerState();
 
-    void RemoveTCB(TCB*);
+    void addTCB(TCB *);
 
-    TCB* getFirstElement(bool);
+    void RemoveTCB(TCB *);
 
-    TCB* scheduleTCB(bool);
+    TCB *getFirstElement(bool);
 
-    private: TCB* roundRobinAlgorithm(bool);
+    TCB *scheduleTCB(bool);
 
-    private: TCB* fifoAlgorithm();
+private:
+    TCB *roundRobinAlgorithm(bool);
 
-    public: void printScheduler();
+private:
+    TCB *fifoAlgorithm();
+
+public:
+    void printScheduler();
 };
 
 #endif

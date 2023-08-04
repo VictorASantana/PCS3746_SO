@@ -9,25 +9,26 @@ using namespace std;
 Process::Process(int memoryBlocks, int id, int type)
 {
     string nomeArquivo = "./data/instr.txt";
-    
+
     this->id = id;
     this->type = type;
     this->memoryBlocks = memoryBlocks;
     this->instructions = readInstructions(memoryBlocks - 1, nomeArquivo);
 }
 
-int Process::getMemoryBlock() {return this->memoryBlocks;}
+int Process::getMemoryBlock() { return this->memoryBlocks; }
 
-int Process::getID() {return this->id;}
+int Process::getID() { return this->id; }
 
-int Process::getPC() {return this->pc;}
+int Process::getPC() { return this->pc; }
 
-int Process::getType() {return this->type;}
+int Process::getType() { return this->type; }
 
-void Process::updatePC()  {this->pc = this->pc + 1;}
+vector<string> Process::getInstructions() { return this->instructions; }
 
-void Process::resume(int pc) {this->pc = pc;}
+void Process::updatePC() { this->pc = this->pc + 1; }
 
+void Process::resume(int pc) { this->pc = pc; }
 
 int Process::block()
 {
@@ -35,7 +36,6 @@ int Process::block()
     this->pc = 0;
     return pc;
 }
-
 
 vector<string> Process::readInstructions(int numberOfInstructions, const string &nomeArquivo)
 {
@@ -54,8 +54,8 @@ vector<string> Process::readInstructions(int numberOfInstructions, const string 
         arquivo.close();
     }
 
-    else cout << "Não foi possível abrir o arquivo." << endl;
+    else
+        cout << "Não foi possível abrir o arquivo." << endl;
 
-    linhas.push_back("hlt");
     return linhas;
 }

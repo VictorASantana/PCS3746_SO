@@ -8,11 +8,13 @@ using namespace std;
 
 Scheduler::Scheduler() {}
 
-void Scheduler::setSchedulerAlgorithm(bool algorithm) {this->roundRobin = algorithm;}
+void Scheduler::setSchedulerAlgorithm(bool algorithm) { this->roundRobin = algorithm; }
 
-bool Scheduler::getSchedulerAlgorithm() {return this->roundRobin;}
+bool Scheduler::getSchedulerAlgorithm() { return this->roundRobin; }
 
-void Scheduler::addTCB(TCB *tcb) {this->scheduler.push_back(tcb);}
+void Scheduler::addTCB(TCB *tcb) { this->scheduler.push_back(tcb); }
+
+deque<TCB *> Scheduler::getSchedulerState() { return this->scheduler; }
 
 void Scheduler::RemoveTCB(TCB *tcb)
 {
@@ -23,24 +25,25 @@ void Scheduler::RemoveTCB(TCB *tcb)
     }
 }
 
-TCB* Scheduler::getFirstElement(bool drop)
+TCB *Scheduler::getFirstElement(bool drop)
 {
     if (!this->scheduler.empty())
     {
         TCB *tcb = this->scheduler.front();
-        if (drop) this->scheduler.pop_front();
+        if (drop)
+            this->scheduler.pop_front();
         return tcb;
     }
 
-    else return NULL;
-    
+    else
+        return NULL;
 }
 
-TCB* Scheduler::scheduleTCB(bool isFinished)
+TCB *Scheduler::scheduleTCB(bool isFinished)
 {
     TCB *tcb;
 
-    if (!this->scheduler.size() > 1) 
+    if (!this->scheduler.size() > 1)
     {
         if (this->roundRobin == true)
             tcb = this->roundRobinAlgorithm(isFinished);
@@ -51,10 +54,11 @@ TCB* Scheduler::scheduleTCB(bool isFinished)
         return tcb;
     }
 
-    else return NULL;    
+    else
+        return NULL;
 }
 
-TCB* Scheduler::roundRobinAlgorithm(bool isFinished)
+TCB *Scheduler::roundRobinAlgorithm(bool isFinished)
 {
     if (isFinished)
     {
@@ -79,7 +83,7 @@ TCB* Scheduler::roundRobinAlgorithm(bool isFinished)
     };
 }
 
-TCB* Scheduler::fifoAlgorithm()
+TCB *Scheduler::fifoAlgorithm()
 {
     this->scheduler.pop_front();
     TCB *tcb = this->getFirstElement(false);

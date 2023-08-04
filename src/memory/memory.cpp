@@ -115,3 +115,8 @@ void Memory::printMemoryAndBitMap()
     printf("\n");
     printf("\n");
 }
+
+int *Memory::getBitMap()
+{
+    return this->bitMap;
+}
