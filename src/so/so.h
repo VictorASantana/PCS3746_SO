@@ -1,4 +1,5 @@
 #include <vector>
+#include <deque>
 #include "tcb.h"
 #include "process.h"
 #include "memory.h"
@@ -6,8 +7,9 @@
 
 using namespace std;
 
-class OperatingSystem {
-    private:
+class OperatingSystem
+{
+private:
     int currentID = 1;
     int atom = 4;
     int cycle = 0;
@@ -15,10 +17,10 @@ class OperatingSystem {
 
     Memory mem;
     Scheduler sched;
-    vector<Process*> processVector;
-    vector<TCB*> TCBVector;
+    vector<Process *> processVector;
+    vector<TCB *> TCBVector;
 
-    public:
+public:
     OperatingSystem();
 
     int createProcess(int, int);
@@ -27,9 +29,15 @@ class OperatingSystem {
 
     int addProcess(int, int);
 
-    Process* getProcess(int);
+    Process *getProcess(int);
 
-    TCB* getTCB(int);
+    TCB *getTCB(int);
+
+    TCB *getRunning();
+
+    int *getBitMapState();
+
+    deque<TCB *> getScheduler();
 
     int compactMem();
 

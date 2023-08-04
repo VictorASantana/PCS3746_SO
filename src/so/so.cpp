@@ -1,6 +1,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <deque>
 
 #include "so.h"
 #include "tcb.h"
@@ -28,8 +29,8 @@ int OperatingSystem::createProcess(int memoryBlocks, int type)
         this->sched.addTCB(t);
         this->currentID++;
 
-        this->mem.printMemoryAndBitMap();
-        this->sched.printScheduler();
+        // this->mem.printMemoryAndBitMap();
+        // this->sched.printScheduler();
     }
 
     return 1;
@@ -50,8 +51,8 @@ int OperatingSystem::killProcess(int pID)
             this->TCBVector.erase(TCBVector.begin() + i);
             this->sched.RemoveTCB(t);
 
-            this->mem.printMemoryAndBitMap();
-            this->sched.printScheduler();
+            // this->mem.printMemoryAndBitMap();
+            // this->sched.printScheduler();
 
             break;
         }
@@ -72,12 +73,12 @@ int OperatingSystem::addProcess(int memoryBlocks, int type)
     this->TCBVector.push_back(t);
     this->sched.addTCB(t);
     this->currentID++;
-    this->sched.printScheduler();
+    // this->sched.printScheduler();
 
     return 1;
 }
 
-Process* OperatingSystem::getProcess(int pid)
+Process *OperatingSystem::getProcess(int pid)
 {
     Process *p;
     for (int i = 0; i < this->processVector.size(); i++)
@@ -90,14 +91,15 @@ Process* OperatingSystem::getProcess(int pid)
     return NULL;
 }
 
-TCB* OperatingSystem::getTCB(int pID)
+TCB *OperatingSystem::getTCB(int pID)
 {
     TCB *t;
     for (int i = 0; i < TCBVector.size(); i++)
     {
         t = TCBVector[i];
         int id = t->getProcess()->getID();
-        if (pID == id) return t;
+        if (pID == id)
+            return t;
     }
 
     return NULL;
@@ -106,11 +108,11 @@ TCB* OperatingSystem::getTCB(int pID)
 int OperatingSystem::compactMem()
 {
     this->mem.fixExternalFragmentation();
-    this->mem.printMemoryAndBitMap();
+    // this->mem.printMemoryAndBitMap();
     return 1;
 }
 
-int OperatingSystem::runCycle() 
+int OperatingSystem::runCycle()
 {
     Process *p;
     TCB *t = this->sched.getFirstElement(false);
@@ -124,14 +126,14 @@ int OperatingSystem::runCycle()
             this->createProcess(t->getProcess()->getMemoryBlock(), 0);
             this->killProcess(t->getProcess()->getID());
         }
-        
+
         else if (type == 2)
         {
             this->killProcess(t->getProcess()->getMemoryBlock());
             this->killProcess(t->getProcess()->getID());
-        }            
-            
-        else 
+        }
+
+        else
         {
             p = t->getProcess();
             this->compact++;
@@ -143,7 +145,7 @@ int OperatingSystem::runCycle()
                 this->cycle = 0;
             }
 
-            else 
+            else
             {
                 p->updatePC();
                 this->cycle++;
@@ -151,20 +153,21 @@ int OperatingSystem::runCycle()
                 if (this->cycle == this->atom)
                 {
                     bool isRoundRobin = this->sched.getSchedulerAlgorithm();
-                    if (isRoundRobin) this->sched.scheduleTCB(false);
+                    if (isRoundRobin)
+                        this->sched.scheduleTCB(false);
                     this->cycle = 0;
-                    t->printTCB();
+                    // t->printTCB();
                 }
             }
 
-            if (this->compact == this->atom) 
+            if (this->compact == this->atom)
             {
                 this->compact = 0;
                 this->compactMem();
             }
         }
 
-        this->sched.printScheduler();
+        // this->sched.printScheduler();
         return p->getPC();
     }
 
@@ -172,13 +175,39 @@ int OperatingSystem::runCycle()
     return -1;
 }
 
-void OperatingSystem::setAlgorithm(string str) 
+void OperatingSystem::setAlgorithm(string str)
 {
     if (str == "rr")
         this->sched.setSchedulerAlgorithm(true);
 
     else if (str == "fifo")
         this->sched.setSchedulerAlgorithm(false);
-    
-    else printf("Algoritmo nao reconhecido\n");
+
+    else
+        printf("Algoritmo nao reconhecido\n");
+}
+
+TCB *OperatingSystem::getRunning()
+{
+    TCB *t = this->sched.getFirstElement(false);
+    if (t != NULL)
+    {
+        return t;
+    }
+    return NULL;
+}
+
+int *OperatingSystem::getBitMapState()
+{
+    int *m = this->mem.getBitMap();
+    if (m != NULL)
+    {
+        return m;
+    }
+    return NULL;
+}
+
+deque<TCB *> OperatingSystem::getScheduler()
+{
+    return this->sched.getSchedulerState();
 }

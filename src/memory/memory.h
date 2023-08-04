@@ -8,26 +8,31 @@ using namespace std;
 
 class Memory
 {
-    private:
+private:
     int memory[MAX_MEMORY_SIZE];
     int bitMap[MAX_MEMORY_SIZE];
 
-    public:
+public:
     Memory();
 
     int insertProcessIntoMemory(Process process);
 
     int removeProcessFromMemory(Process process);
 
+    int *getBitMap();
+
     // Transfere espaços livres para final da memória
     void fixExternalFragmentation();
 
-    private: int checkEmptyMemorySlot(Process process);
+private:
+    int checkEmptyMemorySlot(Process process);
 
-    private: int findProcessInMemory(int processId);
+private:
+    int findProcessInMemory(int processId);
 
     // Apenas para fins de testagem
-    public: void printMemoryAndBitMap();
+public:
+    void printMemoryAndBitMap();
 };
 
 #endif
