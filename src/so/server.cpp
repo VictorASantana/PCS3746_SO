@@ -14,7 +14,7 @@
 #define MAX_BUFFER 1024
 
 WINDOW *create_newwin(int height, int width, int starty, int startx);
-void printStatusWin(WINDOW *local_win, Process *process);
+void printStatusWin(WINDOW *local_win, TCB *t);
 void printTCBWin(WINDOW *local_win, TCB *tcb, int pc);
 void printBitMapWin(WINDOW *local_win, int *bitMap);
 void printReadyLine(WINDOW *local_win, deque<TCB *> shed);
@@ -135,7 +135,7 @@ int main()
         int *bitMap = so.getBitMapState();
         deque<TCB *> sched = so.getScheduler();
 
-        printStatusWin(status_win, t->getProcess());
+        printStatusWin(status_win, t);
         printTCBWin(tcb_win, t, pc);
         printBitMapWin(bitMap_win, bitMap);
         printReadyLine(readyLine_win, sched);
@@ -163,22 +163,26 @@ int main()
     return 0;
 }
 
-void printStatusWin(WINDOW *local_win, Process *process)
+void printStatusWin(WINDOW *local_win, TCB *t)
 {
     wprintw(local_win, "STATUS\n\n");
-    if (process != NULL)
+    if (t != NULL)
     {
-        if (process->getType() == 0)
+        Process *process = t->getProcess();
+        if (process != NULL)
         {
-            vector<string> instructions = process->getInstructions();
-            for (int i = 0; i < instructions.size(); i++)
+            if (process->getType() == 0)
             {
-                wprintw(local_win, "%s ", instructions[i].c_str());
+                vector<string> instructions = process->getInstructions();
+                for (int i = 0; i < instructions.size(); i++)
+                {
+                    wprintw(local_win, "%s ", instructions[i].c_str());
 
-                if (process->getPC() == i)
-                    wprintw(local_win, "<-");
+                    if (process->getPC() == i)
+                        wprintw(local_win, "<-");
 
-                wprintw(local_win, "\n");
+                    wprintw(local_win, "\n");
+                }
             }
         }
     }
