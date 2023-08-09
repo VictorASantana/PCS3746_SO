@@ -17,6 +17,9 @@ int OperatingSystem::createProcess(int memoryBlocks, int type)
     Process *p;
     TCB *t;
 
+    if (memoryBlocks <= 0)
+        return -1;
+        
     p = new Process(memoryBlocks, this->currentID, type);
     t = new TCB(p);
 
@@ -28,9 +31,6 @@ int OperatingSystem::createProcess(int memoryBlocks, int type)
     {
         this->sched.addTCB(t);
         this->currentID++;
-
-        // this->mem.printMemoryAndBitMap();
-        // this->sched.printScheduler();
     }
 
     return 1;
@@ -50,10 +50,6 @@ int OperatingSystem::killProcess(int pID)
             this->processVector.erase(processVector.begin() + i);
             this->TCBVector.erase(TCBVector.begin() + i);
             this->sched.RemoveTCB(t);
-
-            // this->mem.printMemoryAndBitMap();
-            // this->sched.printScheduler();
-
             break;
         }
     }
@@ -73,7 +69,6 @@ int OperatingSystem::addProcess(int memoryBlocks, int type)
     this->TCBVector.push_back(t);
     this->sched.addTCB(t);
     this->currentID++;
-    // this->sched.printScheduler();
 
     return 1;
 }
@@ -108,7 +103,6 @@ TCB *OperatingSystem::getTCB(int pID)
 int OperatingSystem::compactMem()
 {
     this->mem.fixExternalFragmentation();
-    // this->mem.printMemoryAndBitMap();
     return 1;
 }
 
@@ -124,12 +118,14 @@ int OperatingSystem::runCycle()
         if (type == 1)
         {
             this->createProcess(t->getProcess()->getMemoryBlock(), 0);
+            this->sched.scheduleTCB(true);
             this->killProcess(t->getProcess()->getID());
         }
 
         else if (type == 2)
         {
             this->killProcess(t->getProcess()->getMemoryBlock());
+            this->sched.scheduleTCB(true);
             this->killProcess(t->getProcess()->getID());
         }
 
@@ -150,28 +146,25 @@ int OperatingSystem::runCycle()
                 p->updatePC();
                 this->cycle++;
 
-                if (this->cycle == this->atom)
+                if (this->cycle == this->quantum)
                 {
                     bool isRoundRobin = this->sched.getSchedulerAlgorithm();
                     if (isRoundRobin)
                         this->sched.scheduleTCB(false);
                     this->cycle = 0;
-                    // t->printTCB();
                 }
             }
 
-            if (this->compact == this->atom)
+            if (this->compact == this->quantum)
             {
                 this->compact = 0;
                 this->compactMem();
             }
         }
 
-        // this->sched.printScheduler();
         return p->getPC();
     }
 
-    printf("Nao ha processos na fila\n\n");
     return -1;
 }
 

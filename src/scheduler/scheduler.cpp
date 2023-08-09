@@ -43,20 +43,20 @@ TCB *Scheduler::scheduleTCB(bool isFinished)
 {
     TCB *tcb;
 
-    if (!this->scheduler.size() > 1)
+    if (this->scheduler.size() > 1)
     {
         if (this->roundRobin == true)
             tcb = this->roundRobinAlgorithm(isFinished);
-
+            
         else if (this->roundRobin == false)
             tcb = fifoAlgorithm();
 
         return tcb;
     }
 
-    else
-        return NULL;
+    else return NULL;
 }
+        
 
 TCB *Scheduler::roundRobinAlgorithm(bool isFinished)
 {

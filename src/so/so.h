@@ -11,10 +11,11 @@ class OperatingSystem
 {
 private:
     int currentID = 1;
-    int atom = 4;
+    int quantum = 4;
     int cycle = 0;
     int compact = 0;
 
+public:
     Memory mem;
     Scheduler sched;
     vector<Process *> processVector;

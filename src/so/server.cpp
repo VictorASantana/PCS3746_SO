@@ -15,7 +15,7 @@
 
 WINDOW *create_newwin(int height, int width, int starty, int startx);
 void printStatusWin(WINDOW *local_win, TCB *t);
-void printTCBWin(WINDOW *local_win, TCB *tcb, int pc);
+void printTCBWin(WINDOW *local_win, TCB *tcb);
 void printBitMapWin(WINDOW *local_win, int *bitMap);
 void printReadyLine(WINDOW *local_win, deque<TCB *> shed);
 
@@ -64,6 +64,7 @@ int main()
     while (true)
     {
         char buffer[MAX_BUFFER] = "";
+        memset(buffer, 0, sizeof(buffer));
 
         // Recebe a mensagem do cliente
         string op, pid;
@@ -93,7 +94,10 @@ int main()
                 }
 
                 else if (op == "run")
+                {
                     pc = so.runCycle();
+                }
+                    
 
                 else if (op == "set")
                 {
@@ -113,6 +117,7 @@ int main()
 
         if (strcmp(buffer, "exit") == 0)
             break;
+
         // Lógica da interface
         int startx = 0;
         int starty = 0;
@@ -136,7 +141,7 @@ int main()
         deque<TCB *> sched = so.getScheduler();
 
         printStatusWin(status_win, t);
-        printTCBWin(tcb_win, t, pc);
+        printTCBWin(tcb_win, t);
         printBitMapWin(bitMap_win, bitMap);
         printReadyLine(readyLine_win, sched);
 
@@ -157,6 +162,7 @@ int main()
         if (strcmp(buffer, "exit") == 0)
             break;
     }
+
     endwin();
     close(newSocket);
     close(serverSocket);
@@ -186,39 +192,19 @@ void printStatusWin(WINDOW *local_win, TCB *t)
             }
         }
     }
-
-    // wprintw(local_win, "MOV AX, 10\n");
-    // wprintw(local_win, "MOV BX, AX <---\n");
-    // wprintw(local_win, "JMP\n");
-    // wprintw(local_win, "HTL\n");
-
     wrefresh(local_win);
 }
 
-void printTCBWin(WINDOW *local_win, TCB *tcb, int pc)
+void printTCBWin(WINDOW *local_win, TCB *tcb)
 {
     wprintw(local_win, "TCB\n\n");
 
     if (tcb != NULL)
     {
         wprintw(local_win, "PID: %d\n", tcb->getProcess()->getID());
-        wprintw(local_win, "PC: %d\n", pc);
+        wprintw(local_win, "PC: %d\n", tcb->getProcess()->getPC());
         wprintw(local_win, "........\n");
     }
-
-    // wprintw(local_win, "PID: %d\n", process.getID());
-    // for(int i = 0; i < process.registerList.size(); i++)
-    //     wprintw(local_win, "REG %s:\n", process.registerList[i]);
-    // wprintw(local_win, "PC: &d\n", tcb.pc)
-    // wprintw(local_win, "........\n");
-
-    // TODO: substituir mock
-    // wprintw(local_win, "PID: 3\n");
-    // wprintw(local_win, "REG AX:\n");
-    // wprintw(local_win, "REG BX:\n");
-    // wprintw(local_win, "PC: 1\n");
-    // wprintw(local_win, "........\n");
-
     wrefresh(local_win);
 }
 
@@ -236,23 +222,6 @@ void printBitMapWin(WINDOW *local_win, int *bitMap)
             wprintw(local_win, "%d ", bitMap[i]);
         }
     }
-
-    // for(int i = 0; i < MAX_MEMORY_SIZE; i++){
-    //     wprintw(local_win, "%d ", Memory.bitMap[i]);
-    //     if(i % 4 == 0)
-    //         wprintw(local_win, "\n");
-    // }
-    //
-
-    // for (int i = 0; i < 20; i++)
-    // {
-    //     if (i % 5 == 0 && i != 0)
-    //         wprintw(local_win, "\n");
-
-    //     int n = (int)rand() % 2;
-    //     wprintw(local_win, "%d ", n);
-    // }
-
     wrefresh(local_win);
 }
 
@@ -260,7 +229,7 @@ void printReadyLine(WINDOW *local_win, deque<TCB *> sched)
 {
     if (sched[0] != NULL)
     {
-        wprintw(local_win, "FILA DE PRONTOS\n\n");
+        wprintw(local_win, "\nFILA DE PRONTOS\n\n");
         wprintw(local_win, "| ");
         for (int i = 0; i < sched.size(); i++)
         {
@@ -278,8 +247,5 @@ WINDOW *create_newwin(int height, int width, int starty, int startx)
     WINDOW *local_win;
 
     local_win = newwin(height, width, starty, startx);
-    // box(local_win, 0 , 0);		/* 0, 0 dá caracteres padrão para as linhas verticais and horizontais	*/
-    // wrefresh(local_win);		/* Mostra aquela caixa 	*/
-
     return local_win;
 }
