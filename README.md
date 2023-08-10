@@ -1,6 +1,6 @@
 # Projeto da disciplina PCS3746 - Sistemas Operacionais
 
-Esse projeto representa uma simulação de um sistema operacional de maneira básica. 
+Esse projeto representa uma simulação em C++ de um sistema operacional de maneira básica. 
 Apresenta como entidades principais Processo, TCB e Memória. Elas se intercomunicam por meio do sistema operacional simulado e seu funcionamento pode ser conferido via prompt de comando. A execução do projeto é abordada posteriormente.
 O projeto foi proposto pela disciplina PCS3746 (Sistemas Operacionais), lecionada pelo professor Dr. Artur Jordão Lima Correia.
 
@@ -9,6 +9,10 @@ O projeto foi proposto pela disciplina PCS3746 (Sistemas Operacionais), lecionad
 - Pedro Henrique Rodrigues de Viveiros
 - Sophia Lie Asakura
 - Victor de Almeida Santana
+
+### Dependências
+- Sistema Operacional: Linux (no caso, foi utilizado o WSL)
+- Biblioteca: ncurses (para instalá-la basta rodar o comando `sudo apt-get install libncurses5-dev libncursesw5-dev`)
 
 ### Como usar a simulação?
 
