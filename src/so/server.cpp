@@ -13,11 +13,12 @@
 #define PORT 8080
 #define MAX_BUFFER 1024
 
-WINDOW *create_newwin(int height, int width, int starty, int startx);
-void printStatusWin(WINDOW *local_win, TCB *t);
-void printTCBWin(WINDOW *local_win, TCB *tcb);
-void printBitMapWin(WINDOW *local_win, int *bitMap);
-void printReadyLine(WINDOW *local_win, deque<TCB *> shed);
+WINDOW *create_newwin(int, int, int, int);
+void printStatusWin(WINDOW*, TCB*);
+void printTCBWin(WINDOW*, TCB*);
+void printBitMapWin(WINDOW*, int*);
+void printReadyLine(WINDOW*, deque<TCB*>);
+void printAlgorithm(WINDOW*, bool);
 
 int main()
 {
@@ -134,16 +135,19 @@ int main()
         WINDOW *status_win = create_newwin(10, 30, 0, 0);
         WINDOW *tcb_win = create_newwin(10, 20, 0, 25);
         WINDOW *bitMap_win = create_newwin(10, 30, 0, 50);
-        WINDOW *readyLine_win = create_newwin(30, 80, 10, 0);
+        WINDOW *readyLine_win = create_newwin(5, 80, 10, 0);
+        WINDOW *algorithm_win = create_newwin(10, 80, 15, 0);
 
         TCB *t = so.getRunning();
         int *bitMap = so.getBitMapState();
         deque<TCB *> sched = so.getScheduler();
+        bool algorithm = so.getAlgorithm();
 
         printStatusWin(status_win, t);
         printTCBWin(tcb_win, t);
         printBitMapWin(bitMap_win, bitMap);
         printReadyLine(readyLine_win, sched);
+        printAlgorithm(algorithm_win, algorithm);
 
         i++;
 
@@ -234,12 +238,30 @@ void printReadyLine(WINDOW *local_win, deque<TCB *> sched)
         for (int i = 0; i < sched.size(); i++)
         {
             int pid = sched[i]->getProcess()->getID();
-            wprintw(local_win, "%d | ", pid);
+            int type = sched[i]->getProcess()->getType();
+            int memblock = sched[i]->getProcess()->getMemoryBlock();
+
+            if (type == 1)
+                wprintw(local_win, "CREATE %d | ", memblock);
+
+            else if (type == 2)
+                wprintw(local_win, "KILL %d | ", memblock);
+                
+            else wprintw(local_win, "%d | ", pid);
         }
         wprintw(local_win, "\n\n");
     }
 
     wrefresh(local_win);
+}
+
+void printAlgorithm(WINDOW *local_win, bool algorithm)
+{
+    if (algorithm)
+        wprintw(local_win, "\nESCALONAMENTO: ROUND ROBIN\n");
+
+    else wprintw(local_win, "\nESCALONAMENTO: FIFO\n");
+    wrefresh(local_win); 
 }
 
 WINDOW *create_newwin(int height, int width, int starty, int startx)

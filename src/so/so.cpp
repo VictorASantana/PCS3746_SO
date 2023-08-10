@@ -200,7 +200,6 @@ int *OperatingSystem::getBitMapState()
     return NULL;
 }
 
-deque<TCB *> OperatingSystem::getScheduler()
-{
-    return this->sched.getSchedulerState();
-}
+deque<TCB *> OperatingSystem::getScheduler() { return this->sched.getSchedulerState(); }
+
+bool OperatingSystem::getAlgorithm() { return this->sched.getSchedulerAlgorithm(); }

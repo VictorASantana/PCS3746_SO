@@ -15,7 +15,7 @@ private:
     int cycle = 0;
     int compact = 0;
 
-public:
+private:
     Memory mem;
     Scheduler sched;
     vector<Process *> processVector;
@@ -38,11 +38,13 @@ public:
 
     int *getBitMapState();
 
-    deque<TCB *> getScheduler();
-
     int compactMem();
 
     int runCycle();
 
     void setAlgorithm(string);
+    
+    deque<TCB*> getScheduler();
+
+    bool getAlgorithm();
 };
