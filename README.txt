@@ -1,16 +1,16 @@
-# Projeto da disciplina PCS3746 - Sistemas Operacionais
+Introdução
 
 Esse projeto representa uma simulação de um sistema operacional de maneira básica. 
 Apresenta como entidades principais Processo, TCB e Memória. Elas se intercomunicam por meio do sistema operacional simulado e seu funcionamento pode ser conferido via prompt de comando. A execução do projeto é abordada posteriormente.
 O projeto foi proposto pela disciplina PCS3746 (Sistemas Operacionais), lecionada pelo professor Dr. Artur Jordão Lima Correia.
 
-### Colaboradores
+Colaboradores
 - Lucas Pavan Garieri
 - Pedro Henrique Rodrigues de Viveiros
 - Sophia Lie Asakura
 - Victor de Almeida Santana
 
-### Como usar a simulação?
+Como usar a simulação?
 
 Abaixo estão os comandos a serem usados para a simulação:
 
