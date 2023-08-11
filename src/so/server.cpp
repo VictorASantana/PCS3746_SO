@@ -247,7 +247,7 @@ void printReadyLine(WINDOW *local_win, deque<TCB *> sched)
             else if (type == 2)
                 wprintw(local_win, "KILL %d | ", memblock);
                 
-            else wprintw(local_win, "%d | ", pid);
+            else wprintw(local_win, "PID %d | ", pid);
         }
         wprintw(local_win, "\n\n");
     }
