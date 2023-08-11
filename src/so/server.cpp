@@ -68,11 +68,11 @@ int main()
         memset(buffer, 0, sizeof(buffer));
 
         // Recebe a mensagem do cliente
-        string op, pid;
-        int umem, pc;
+        string op, pid, umem;
+        int pc;
 
-        op = pid = "";
-        umem = pc = 0;
+        op = pid = umem = "";
+        pc = 0;
 
         recv(newSocket, buffer, sizeof(buffer), 0);
 
@@ -82,8 +82,10 @@ int main()
             {
                 if (op == "create")
                 {
-                    umem = int(buffer[(i + 4)]) - int('0');
-                    so.addProcess(umem, 1);
+                    for (int j = i + 4; buffer[j] != '\0'; j++)
+                        umem.push_back(buffer[j]);
+                    
+                    so.addProcess(stoi(umem), 1);
                 }
 
                 else if (op == "kill")
@@ -132,11 +134,11 @@ int main()
 
         int i = 0;
 
-        WINDOW *status_win = create_newwin(10, 30, 0, 0);
+        WINDOW *status_win = create_newwin(25, 30, 0, 0);
         WINDOW *tcb_win = create_newwin(10, 20, 0, 25);
         WINDOW *bitMap_win = create_newwin(10, 30, 0, 50);
-        WINDOW *readyLine_win = create_newwin(5, 80, 10, 0);
-        WINDOW *algorithm_win = create_newwin(10, 80, 15, 0);
+        WINDOW *readyLine_win = create_newwin(5, 80, 25, 0);
+        WINDOW *algorithm_win = create_newwin(10, 80, 30, 0);
 
         TCB *t = so.getRunning();
         int *bitMap = so.getBitMapState();
